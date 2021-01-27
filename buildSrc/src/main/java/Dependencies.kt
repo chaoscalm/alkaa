@@ -42,7 +42,7 @@ object Versions {
     const val testRoom = "2.1.0"
     const val testArch = "2.1.0"
 
-    const val compose = "1.0.0-alpha07"
+    const val compose = "1.0.0-alpha10"
 
     const val buildGradle = "7.0.0-alpha04"
 
@@ -113,8 +113,8 @@ object GroupieDeps {
 object ComposeDeps {
     val ui = "androidx.compose.ui:ui:${Versions.compose}"
     val material = "androidx.compose.material:material:${Versions.compose}"
-    val tooling = "androidx.ui:ui-tooling:${Versions.compose}"
-    val uiTest = "androidx.ui:ui-test:${Versions.compose}"
+    val tooling = "androidx.compose.ui:ui-tooling:${Versions.compose}"
+    val uiTest = "androidx.compose.ui:ui-test:${Versions.compose}"
 }
 
 object TestDeps {

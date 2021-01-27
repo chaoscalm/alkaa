@@ -1,8 +1,9 @@
 package com.escodro.alkaa.presentation.home
 
-import androidx.compose.animation.animate
+import androidx.compose.animation.animateAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomAppBar
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -11,15 +12,16 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.savedinstancestate.savedInstanceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.accessibilityLabel
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.ui.tooling.preview.Preview
 import com.escodro.alkaa.model.HomeSection
 import com.escodro.task.presentation.list.TaskListSection
 import com.escodro.theme.AlkaaTheme
@@ -36,15 +38,7 @@ fun Home() {
             AlkaaTopBar(currentSection = currentSection)
         },
         bodyContent = {
-            when (currentSection) {
-                HomeSection.Tasks -> TaskListSection()
-                HomeSection.Search -> { /* TODO create new section */
-                }
-                HomeSection.Categories -> { /* TODO create new section */
-                }
-                HomeSection.Settings -> { /* TODO create new section */
-                }
-            }
+            AlkaaBodyContent(currentSection)
         },
         bottomBar = {
             AlkaaBottomNav(
@@ -70,6 +64,20 @@ private fun AlkaaTopBar(currentSection: HomeSection) {
 }
 
 @Composable
+private fun AlkaaBodyContent(currentSection: HomeSection) {
+    val modifier = Modifier.padding(bottom = 56.dp)
+    when (currentSection) {
+        HomeSection.Tasks -> TaskListSection(modifier = modifier)
+        HomeSection.Search -> { /* TODO create new section */
+        }
+        HomeSection.Categories -> { /* TODO create new section */
+        }
+        HomeSection.Settings -> { /* TODO create new section */
+        }
+    }
+}
+
+@Composable
 private fun AlkaaBottomNav(
     currentSection: HomeSection,
     onSectionSelected: (HomeSection) -> Unit,
@@ -78,7 +86,7 @@ private fun AlkaaBottomNav(
     BottomAppBar(backgroundColor = MaterialTheme.colors.background) {
         items.forEach { section ->
             val selected = section == currentSection
-            val tint = animate(
+            val colorState: State<Color> = animateAsState(
                 if (selected) {
                     MaterialTheme.colors.primary
                 } else {
@@ -87,7 +95,7 @@ private fun AlkaaBottomNav(
             )
             AlkaaBottomIcon(
                 section = section,
-                tint = tint,
+                tint = colorState.value,
                 onSectionSelected = onSectionSelected,
                 modifier = Modifier.weight(1f)
             )
@@ -105,9 +113,9 @@ private fun AlkaaBottomIcon(
     val title = stringResource(section.title)
     IconButton(
         onClick = { onSectionSelected(section) },
-        modifier = modifier.semantics { accessibilityLabel = title }
+        modifier = modifier.semantics { contentDescription = title }
     ) {
-        Icon(section.icon, tint = tint)
+        Icon(imageVector = section.icon, tint = tint)
     }
 }
 
