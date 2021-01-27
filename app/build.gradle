@@ -112,4 +112,6 @@ dependencies {
     androidTestImplementation Deps.test.espresso.contrib
     androidTestImplementation Deps.test.junitExt
     androidTestImplementation Deps.test.uiAutomator
+    androidTestImplementation Deps.compose.uiTest
+    androidTestImplementation Deps.compose.junit4
 }
